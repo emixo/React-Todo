@@ -32,7 +32,6 @@ class TodoForm extends React.Component {
                 value = {this.state.keyword}
                 />
                 <button>Add Todo</button>
-                <button>Clear Completed</button>
             </form>
         )
     }

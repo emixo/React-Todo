@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import "./components/Todo.css"
+
 
 const todos = [
 
@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      todos
+      todos: todos
     }
   }
   // you will need a place to store your state in this component.
@@ -27,28 +27,57 @@ class App extends React.Component {
       todos: [...this.state.todos, item]
     })
   }
-
   toggleItem = id => {
+    const newTodoList = this.state.todos.map(item => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completed: !item.completed
+        };
+      } else {
+        return item;
+      }
+    });
+    // update todoList
     this.setState({
-      todos: this.state.todos.map(item => {
-        if (item.id === id) {
-          return {
-            ...item,
-            completed: !item.completed
-          }
-        } else {
-          return item
-        }
-      })
-    })
+      ...this.state,
+      todos: newTodoList
+    });
+  };
+
+  clearCompleted = () => {
+    const incomplete = this.state.todos.filter(todo => !todo.completed)
+    this.setState({
+      ...this.state, 
+      todos: incomplete
+    }) 
   }
+  // toggleItem = id => {
+  //   this.setState({
+  //     newtodo: this.state.todos.map(item => {
+  //       if (item.id === id) {
+  //         return {
+  //           ...item,
+  //           completed: !item.completed
+  //         }
+  //       } else {
+  //         return item
+  //       }
+  //     });
+  //     this.setState({
+  //       ...this.state,
+  //       todoList: newTodoList
+  //     });
+  //   })
+  // }
 
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm addItem={this.addItem}/>
+        <TodoForm addItem={this.addItem} clearPurchased={this.clearPurchased} />
         <TodoList todos={this.state.todos} toggleItem={this.toggleItem} />
+        <button className='clearButton' onClick={this.clearCompleted}>Clear Completed</button>
       </div>
     );
   }
