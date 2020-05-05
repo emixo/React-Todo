@@ -1,8 +1,9 @@
 import React from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import "./components/Todo.css"
 
-const todosList = [
+const todos = [
 
 ]
 
@@ -10,7 +11,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      todos: todosList
+      todos
     }
   }
   // you will need a place to store your state in this component.
@@ -26,12 +27,28 @@ class App extends React.Component {
       todos: [...this.state.todos, item]
     })
   }
+
+  toggleItem = id => {
+    this.setState({
+      todos: this.state.todos.map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            completed: !item.completed
+          }
+        } else {
+          return item
+        }
+      })
+    })
+  }
+
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoForm addItem={this.addItem}/>
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={this.state.todos} toggleItem={this.toggleItem} />
       </div>
     );
   }
